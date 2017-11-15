@@ -1,24 +1,23 @@
-# bip32-utils
+# bip32-utils-smart
 
-[![TRAVIS](https://secure.travis-ci.org/bitcoinjs/bip32-utils.png)](http://travis-ci.org/bitcoinjs/bip32-utils)
-[![NPM](http://img.shields.io/npm/v/bip32-utils.svg)](https://www.npmjs.org/package/bip32-utils)
+[![NPM](http://img.shields.io/npm/v/bip32-utils-smart.svg)](https://www.npmjs.org/package/bip32-utils-smart)
 
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 A set of utilities for working with BIP32.
-Compatible with bitcoinjs-lib `^2.0.0` and `^3.0.0`.
+Compatible with smartcashjs-lib `^2.0.0` and `^3.0.0`.
 
 
 ## Example
 
 #### BIP32 Account
 ``` javascript
-var bitcoin = require('bitcoinjs-lib')
-var bip32utils = require('bip32-utils')
+var smartcash = require('smartcashjs-lib')
+var bip32utils = require('bip32-utils-smart')
 
 // ...
 
-var m = bitcoin.HDNode.fromSeedHex(seedHex)
+var seedHex = "0000000000000000000000000000000000000000000000000000000000000000"
+var m = smartcash.HDNode.fromSeedHex(seedHex)
 var i = m.deriveHardened(0)
 var external = i.derive(0)
 var internal = i.derive(1)
@@ -28,34 +27,35 @@ var account = new bip32utils.Account([
 ])
 
 console.log(account.getChainAddress(0))
-// => 1QEj2WQD9vxTzsGEvnmLpvzeLVrpzyKkGt
+// => SZxotLyNBNeipNc3LQReTgavbWB84VThES
 
 account.nextChainAddress(0)
 
-console.log(account.getChainAddress(1))
-// => 1DAi282VN7Ack9o5BqWYkiEsS8Vgx1rLn
+console.log(account.getChainAddress(0))
+// => SgEJfVHfiPvRLWJmVVCMFNwCgsGoGNgwB3
 
 console.log(account.getChainAddress(1))
-// => 1CXKM323V3kkrHmZQYPUTftGh9VrAWuAYX
+// => SSDgMJVrQyktpGvJkuZZ8KCGVDgnTHm5w2
 
-console.log(account.derive('1QEj2WQD9vxTzsGEvnmLpvzeLVrpzyKkGt'))
-// => xpub6A5Fz4JZg4kd8pLTTaMBKsvVgzRBrvai6ChoxWNTtYQ3UDVG1VyAWQqi6SNqkpsfsx9F8pRqwtKUbU4j4gqpuN2gpgQs4DiJxsJQvTjdzfA
+console.log(account.derive('SSDgMJVrQyktpGvJkuZZ8KCGVDgnTHm5w2').toBase58())
+// => xpub6DJB5bmtQyrkk35UMaCu3hSM2bFMEEFzLq8Dne3jK8YXdjVY5qGWQWBqcRnVv2iDm8HnCCcZE3nNRt2EiWDyByFnh5BKdaVcCQeDCfuew9Q
 
 // NOTE: passing in the parent nodes allows for private key escalation (see xprv vs xpub)
 
-console.log(account.derive('1QEj2WQD9vxTzsGEvnmLpvzeLVrpzyKkGt', [external, internal]))
-// => xprv9vodQPEygdPGUWeKUVNd6M2N533PvEYP21tYxznauyhrYBBCmdKxRJzmnsTsSNqfTJPrDF98GbLCm6xRnjceZ238Qkf5GQGHk79CrFqtG4d
+console.log(account.derive('SSDgMJVrQyktpGvJkuZZ8KCGVDgnTHm5w2', [external, internal]).toBase58())
+// => xprv9zJpg6EzacJTXZ11FYftgZVcUZQrpmY8ycCczFe7ko1YkwAPYHxFrhsMm9YjnaiS9SLpzjabw7JrrWLRb7tPnzaUYhT9UeWt3tFpw26wX7T
 ```
 
 
 #### BIP32 Chains
 ``` javascript
-var bitcoin = require('bitcoinjs-lib')
-var bip32utils = require('bip32-utils')
+var smartcash = require('smartcashjs-lib')
+var bip32utils = require('bip32-utils-smart')
 
 // ...
 
-var hdNode = bitcoin.HDNode.fromSeedHex(seedHex)
+var seedHex = "0000000000000000000000000000000000000000000000000000000000000000"
+var hdNode = smartcash.HDNode.fromSeedHex(seedHex)
 var chain = new bip32utils.Chain(hdNode)
 
 for (var k = 0; k < 10; ++k) chain.next()
@@ -63,23 +63,25 @@ for (var k = 0; k < 10; ++k) chain.next()
 var address = chain.get()
 
 console.log(chain.find(address))
-// => 9
+// => 10
 
 console.log(chain.pop())
 // => address
+// => SkEHK9j8nyWs7EydNPeEkSXZ4MiUN3JeSq
 ```
 
 
 #### BIP32 Discovery (manual)
 ``` javascript
-var bip32utils = require('bip32-utils')
-var bitcoin = require('bitcoinjs-lib')
+var bip32utils = require('bip32-utils-smart')
+var smartcash = require('smartcashjs-lib')
 var Blockchain = require('cb-blockr')
 
 // ...
 
+var seedHex = "0000000000000000000000000000000000000000000000000000000000000000"
 var blockchain = new Blockchain('testnet')
-var hdNode = bitcoin.HDNode.fromSeedHex(seedHex)
+var hdNode = smartcash.HDNode.fromSeedHex(seedHex)
 var chain = bip32utils.Chain(hdNode)
 var GAP_LIMIT = 20
 

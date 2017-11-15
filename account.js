@@ -1,4 +1,4 @@
-var bitcoinjs = require('bitcoinjs-lib')
+var smartcashjs = require('smartcashjs-lib')
 var discovery = require('./discovery')
 
 var Chain = require('./chain')
@@ -9,7 +9,7 @@ function Account (chains) {
 
 Account.fromJSON = function (json, network) {
   var chains = json.map(function (j) {
-    var node = bitcoinjs.HDNode.fromBase58(j.node, network)
+    var node = smartcashjs.HDNode.fromBase58(j.node, network)
 
     var chain = new Chain(node, j.k)
     chain.map = j.map
