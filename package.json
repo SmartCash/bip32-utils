@@ -1,6 +1,6 @@
 {
   "name": "bip32-utils-smart",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "A set of utilities for working with BIP32 for SmartCash.",
   "author": "SmartCash Developers",
   "main": "index.js",
@@ -25,9 +25,9 @@
     "smartcash"
   ],
   "devDependencies": {
-    "smartcashjs-lib": "^3.3.1"
+    "smartcashjs-lib": "latest"
   },
   "peerDependencies": {
-    "smartcashjs-lib": "^3.3.1"
+    "smartcashjs-lib": "latest"
   }
 }
